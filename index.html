@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./BMI .css">
+</head> 
+
+<body>
+    <section class="all">
+        <section class="back top">
+            <h1>BMI 計算機</h1>
+
+
+
+            <div for class="bmi_calcu">
+
+                <label for="bodyHeight">身高 :</label>
+                <input type="number" placeholder="請輸入身高" class="bodyHeight" min="0">cm
+
+
+                <label for="bodyWeight">體重:</label>
+                <input type="number" placeholder="請輸入體重" class="bodyWeight" min="0">kg
+
+
+
+
+
+            </div>
+
+
+            <div class="btn_block">
+                <input type="submit" onclick="formReset()" value="開始計算" class="calcualteBMI">
+
+                <form id="frm1">
+
+                    <input type="submit" value="重新計算"  class="returnBMI">
+                </form>
+
+            </div>
+
+
+
+        </section>
+
+        
+        <section id="bottom">
+
+            <h2 class="result_txt">你的BMI</h2>
+            <p id="resultText"> BMI :</p>
+            <p id="bmiText"> 您的身體狀況 :</p>
+            <p id="SuggestText"> 健康建議 : </p>
+
+
+
+
+        </section>
+</body>
+<script>
+    document.getElementById('bottom').style.display="none"
+
+
+
+function fadeIn(element,speed){
+    if(element.style.opacity !=1){
+        var speed = speed || 30 ;
+        var num = 0;
+        var st = setInterval(function(){
+        num++;
+        element.style.opacity = num/10;
+        if(num>=10)  {  clearInterval(st);  }
+        },speed);
+    }
+}
+
+function fadeOut(element){
+    if(element.style.opacity !=0){
+        var speed = speed || 30 ;
+        var num = 10;
+        var st = setInterval(function(){
+        num--;
+        element.style.opacity = num / 10 ;
+        if(num<=0)  {   clearInterval(st);  }
+        },speed);
+    }
+
+}
+
+function btnIn(){
+    fadeIn(output,100);
+}
+
+function btnOut(){
+    fadeOut(output,100);
+}
+
+
+
+
+
+    function formReset() {
+        document.getElementById("frm1").reset();
+        document.getElementById('bottom').style.display=""
+
+    }
+
+    let bmiText = document.querySelector('#bmiText');
+    let btn = document.querySelector('.calcualteBMI');
+    let reset = document.querySelector('.returnBMI');
+    const input = document.querySelectorAll('input');
+    const output =document.querySelector('.bottom')
+
+
+    function bmi(weight, height) {
+        let w = parseInt(weight);
+        let h = parseInt(height) / 100;
+        let bmi = (w / (h * h)).toFixed(2);
+        return bmi;
+
+    }
+
+
+    function calculateBMI() {
+        console.log();
+        let bodyWeight = document.querySelector('.bodyWeight').value;
+        let bodyHeight = document.querySelector('.bodyHeight').value;
+        let resultText = document.querySelector('#resultText');
+        let bmiText = document.querySelector('#bmiText');
+        let SuggestText = document.querySelector('#SuggestText');
+
+        (bodyWeight != "") && (bodyHeight != "")
+
+        bmiText.style.display = "block";
+        resultText.innerHTML = bmi(bodyWeight, bodyHeight);
+        bmiText.innerHTML = checkBMI(bmi(bodyWeight, bodyHeight));
+
+
+    }
+
+
+
+
+
+    function checkBMI(bmi) {
+
+        if (bmi < 18.5) {
+            SuggestText.innerHTML = "健康建議 :" + "多多補充營養"
+            return "您的身體狀況:過輕"
+
+
+        }
+
+        else if (bmi >= 18.5 && bmi < 24) {
+            SuggestText.innerHTML = "健康建議 :" + "體重良好繼續保持"
+            return "您的身體狀況:正常 "
+
+        }
+
+        else if (bmi >= 24 && bmi < 27) {
+            SuggestText.innerHTML = "健康建議 :" + "差一點,堅持住ㄚ!!"
+            return "您的身體狀況:過重 "
+        }
+
+        else if (bmi >= 27 && bmi < 30) {
+            SuggestText.innerHTML = "健康建議 :" + "肉要溢出來啦!!!"
+            return "您的身體狀況:輕度肥胖 "
+        }
+
+        else if (bmi >= 30 && bmi < 35) {
+            SuggestText.innerHTML = "健康建議 :" + "大頭照滿版了對吧"
+            return "您的身體狀況:中度肥胖 "
+        }
+
+        else if (bmi >= 35) {
+            SuggestText.innerHTML = "健康建議 :" + "趕趕快離開ㄚ嬤家!!!"
+            return "您的身體狀況:重度肥胖 "
+        }
+
+
+    }
+
+    function undo(e) {
+        document.querySelector('.bodyWeight').value = '';
+        document.querySelector('.bodyHeight').value = '';
+        bmiText.style.display = "none";
+        resultText.innerHTML = 0;
+        return
+
+    }
+
+
+    btn.addEventListener('click', calculateBMI);
+    reset.addEventListener('click', undo);
+
+
+
+
+
+
+
+</script>
